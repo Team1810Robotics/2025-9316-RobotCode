@@ -118,4 +118,4 @@ Username: ```pi```
 
 Password: ```raspberry```
 
-IP Address: ```10.93.16.11```
+IP Address(with port): ```10.93.16.11:5800```
