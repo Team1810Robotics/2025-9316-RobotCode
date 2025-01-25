@@ -113,9 +113,9 @@
 | 02        |           |
 | 03        |           |
 
-## OrangePi Address access point for 1
-Username: ```Pi```    
+## OrangePi Information
+Username: ```pi```    
 
-Password: ```rasberry```
+Password: ```raspberry```
 
 IP Address: ```10.93.16.11```
