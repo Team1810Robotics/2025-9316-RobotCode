@@ -19,23 +19,27 @@ import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class Vision_Subsystem extends SubsystemBase {
-    
+   
+    Transform3d robotToCam = VisionConstants.CAMERA_OFFSET;
+
 AprilTagFieldLayout aprilTagFieldLayout = 
 Constants.APRIL_TAG_FIELD_LAYOUT;
 
     PhotonCamera camera;
     PhotonPoseEstimator photonPoseEstimator;
-    PhotonPipelineResult result;  
+    PhotonPipelineResult result; 
 
      public Vision_Subsystem() {
         camera = new PhotonCamera(VisionConstants.TARGET_CAMERA);
         photonPoseEstimator =
                 new PhotonPoseEstimator(
-                        AprilTagFieldLayout,
+                        aprilTagFieldLayout,
                         PoseStrategy.CLOSEST_TO_REFERENCE_POSE,
                         camera,
                         robotToCam);
         result = camera.getLatestResult();
     }
+
+
 }
     
