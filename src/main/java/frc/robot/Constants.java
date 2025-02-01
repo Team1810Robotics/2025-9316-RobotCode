@@ -19,12 +19,11 @@ public class Constants {
         public static final Transform3d CAMERA_OFFSET = null;
         public static String TARGET_CAMERA; 
         
-
         }
 
     public static final AprilTagFieldLayout APRIL_TAG_FIELD_LAYOUT = null;
     
-        
+    
 }
 
 
