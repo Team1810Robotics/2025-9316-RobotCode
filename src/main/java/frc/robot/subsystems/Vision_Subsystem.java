@@ -18,11 +18,13 @@ import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+
+
 public class Vision_Subsystem extends SubsystemBase {
    
     Transform3d robotToCam = VisionConstants.CAMERA_OFFSET;
 
-AprilTagFieldLayout aprilTagFieldLayout = 
+AprilTagFieldLayout AprilTagFieldLayout = 
 Constants.APRIL_TAG_FIELD_LAYOUT;
 
     PhotonCamera camera;
@@ -33,13 +35,41 @@ Constants.APRIL_TAG_FIELD_LAYOUT;
         camera = new PhotonCamera(VisionConstants.TARGET_CAMERA);
         photonPoseEstimator =
                 new PhotonPoseEstimator(
-                        aprilTagFieldLayout,
+                        AprilTagFieldLayout,
                         PoseStrategy.CLOSEST_TO_REFERENCE_POSE,
-                        camera,
                         robotToCam);
         result = camera.getLatestResult();
     }
 
+    /**
+     * @return whether or not an AprilTag is detected
+     */
+    public boolean hasTarget() {
+        return result.hasTargets();
+    }
 
+
+    /**
+     * @return the best target's ID
+     */
+    public int getTargetId() {
+        return result.getBestTarget().getFiducialId();
+    }
+
+    /**
+     * @returns the vision pipeline's result (all of its data)
+     */
+    public PhotonPipelineResult getResult() {
+        return result;
+    }
+
+    public List<PhotonTrackedTarget> getTargets() {
+        return result.getTargets();
+    }
+
+    @Override
+    public void periodic() {
+        result = camera.getLatestResult();
+    }
 }
     
