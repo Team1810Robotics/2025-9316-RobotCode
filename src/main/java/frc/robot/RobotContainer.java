@@ -12,8 +12,12 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+
 
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -35,8 +39,15 @@ public class RobotContainer {
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
+    private SendableChooser<Command> autoChooser = new SendableChooser<>();
+
     public RobotContainer() {
         configureBindings();
+    }
+
+
+    private void offLineAuto(){
+       // return driveSubsystem.drive(-.5,-.5).withTimeout(2);
     }
 
     private void configureBindings() {
@@ -71,5 +82,12 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         return Commands.print("No autonomous command configured");
+    }
+
+    public void setElastic(){
+        // TODO - ADD LOCATION FOR SENSORS
+        autoChooser.setDefaultOption("No Auto", new InstantCommand());
+        autoChooser.addOption("Option1", new InstantCommand());
+        autoChooser.addOption("Option2", new InstantCommand());
     }
 }
