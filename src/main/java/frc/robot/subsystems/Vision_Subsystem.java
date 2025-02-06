@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -22,6 +23,9 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class Vision_Subsystem extends SubsystemBase {
    
+    private final PIDController spinPIDController = new PIDController(VisionConstants.V_Kp, VisionConstants.V_Ki, VisionConstants.V_Kd);
+    
+    
     Transform3d robotToCam = VisionConstants.CAMERA_OFFSET;
 
 AprilTagFieldLayout AprilTagFieldLayout = 
@@ -37,6 +41,7 @@ Constants.APRIL_TAG_FIELD_LAYOUT;
                 new PhotonPoseEstimator(
                         AprilTagFieldLayout,
                         PoseStrategy.CLOSEST_TO_REFERENCE_POSE,
+                        
                         robotToCam);
         result = camera.getLatestResult();
     }
@@ -46,6 +51,13 @@ Constants.APRIL_TAG_FIELD_LAYOUT;
      */
     public boolean hasTarget() {
         return result.hasTargets();
+    }
+
+    public Optional<Double>getYaw() {
+        if (hasTarget()) { 
+            return Optional.of(result.getBestTarget().getYaw())
+        } 
+        else{return Optional.empty();}
     }
 
 
@@ -71,5 +83,19 @@ Constants.APRIL_TAG_FIELD_LAYOUT;
     public void periodic() {
         result = camera.getLatestResult();
     }
+
+    public double visionTargetPIDCalc(
+         double altRotation, boolean visionMode) {
+         boolean target = hasTarget();
+         Optional<Double> yaw = getYaw();
+
+         if (target && visionMode && yaw.isPresent()) {
+             return -spinPIDController.calculate(yaw.get());
+         }
+         if ((visionMode == true) && !target) {
+             return altRotation;
+         }
+          return altRotation;
+      }
 }
     
