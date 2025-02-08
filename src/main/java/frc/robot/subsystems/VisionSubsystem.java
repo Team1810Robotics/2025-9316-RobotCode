@@ -39,7 +39,7 @@ import org.photonvision.targeting.PhotonPipelineResult;
 
 
 
-public class Vision_Subsystem extends SubsystemBase {
+public class VisionSubsystem extends SubsystemBase {
    
     private final PIDController spinPIDController = new PIDController(VisionConstants.V_Kp, VisionConstants.V_Ki, VisionConstants.V_Kd);
     
@@ -62,7 +62,7 @@ Constants.APRIL_TAG_FIELD_LAYOUT;
     public static final Transform3d CAMERA_TO_ROBOT =
                 new Transform3d(new Translation3d(0.0, 0.0, 0.0), new Rotation3d(0, 0, 0));
     
-    public Vision_Subsystem() {
+    public VisionSubsystem() {
         camera = new PhotonCamera(VisionConstants.TARGET_CAMERA);
         photonPoseEstimator =
                 new PhotonPoseEstimator(
@@ -76,15 +76,6 @@ Constants.APRIL_TAG_FIELD_LAYOUT;
 
     }
     
-      @Override
-      public void periodic() {
-        result = camera.getLatestResult();
-        // This method will be called once per scheduler 
-        
-        //Shuffleboard.getTab("Vision").addBoolean("Has Tag", () -> result.hasTargets());
-        //Shuffleboard.getTab("vision").addDouble("Yaw To Target", () -> getYaw().get());
-        //SmartDashboard.putNumber("pidVis", visionTargetPIDCalc(RobotContainer.joystick.getZ(), ))
-      }
 //TODO: Review to ensure correctly instantiated
       PIDController rotPidController =
             new PIDController(VisionConstants.V_Kp, VisionConstants.V_Ki, VisionConstants.V_Kd);
