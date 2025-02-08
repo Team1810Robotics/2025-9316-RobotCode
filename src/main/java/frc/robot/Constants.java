@@ -11,11 +11,16 @@ import edu.wpi.first.math.geometry.Transform3d;
 public class Constants {
 
     public static final class ElevatorConstants{
+        // for more info:
+    // https://docs.google.com/spreadsheets/d/1y8MNmf4Ztvmj5xiLHOoS9DUJrCoks60W2GWf0nozFus/edit?gid=2021393044#gid=2021393044
     public static final double ELEVATOR_UP_POSITION = 0.25;
     public static final double ELEVATOR_DOWN_POSITION = 0;
     public static final int elevatorMotor1 = 10;
     public static final int elevatorMotor2 = 9;
+    public static final int LIMIT_SWITCH = 0; // Unknown Port
+    public static final int ELEVATOR_ENCODER = 49; 
     }
+
 
   public static final class ShooterConstants {
         //dont know yet
