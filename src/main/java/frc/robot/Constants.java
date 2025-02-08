@@ -12,7 +12,7 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Transform3d;
 
-package frc.robot;
+
 
 public class Constants {
 
@@ -35,8 +35,7 @@ public class Constants {
         public static final AprilTagFieldLayout APRIL_TAG_FIELD_LAYOUT =
             AprilTagFields.k2025Reefscape.loadAprilTagLayoutField();
         public static final Transform3d CAMERA_OFFSET = null;
-        public static String TARGET_CAMERA; 
-        
+               
 
         //PID constants and will need to be changed for the robot 
         public static final double V_Kp = 0.05;
@@ -59,4 +58,3 @@ public class Constants {
 
 
 
-}
