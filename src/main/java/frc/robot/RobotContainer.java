@@ -15,8 +15,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.Elevator_Subsystem;
-import frc.robot.subsystems.Vision_Subsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 
 public class RobotContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -32,10 +32,10 @@ public class RobotContainer {
     private final CommandXboxController xbox = new CommandXboxController(1);
     private final CommandXboxController joystick = new CommandXboxController(0);
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-    public final Elevator_Subsystem elevatorSubsystem = new Elevator_Subsystem(); // Initialize Elevator Subsystem
+    public final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem(); // Initialize Elevator Subsystem
 
     private SendableChooser<Command> autoChooser = new SendableChooser<>();
-    public final Vision_Subsystem visionSubsystem = new Vision_Subsystem();
+    public final VisionSubsystem visionSubsystem = new VisionSubsystem();
 
     public RobotContainer() {
         configureBindings();
