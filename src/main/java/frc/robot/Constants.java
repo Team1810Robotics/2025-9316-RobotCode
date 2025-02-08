@@ -56,16 +56,14 @@ public class Constants {
         public static final double White[] = {255, 255, 255};
         public static final double Orange[] = {255, 128, 0};
         public static final double Green[] = {60, 255, 0};
-        }
-    public final class constants{
-         public static final int CANdleID = 1;
-         public static final int MaxBrightnessAngle = 90;
-         public static final int MidBrightnessAngle = 180;
-         public static final int ZeroBrightnessAngle = 270;
-         public static final int VbatButton = XboxController.Button.kA.value;
-         public static final int V5Button = XboxController.Button.kB.value;
-         public static final int CurrentButton = XboxController.Button.kX.value;
-         public static final int TemperatureButton = XboxController.Button.kY.value;
+        public static final int CANdleID = 1;
+        public static final int MaxBrightnessAngle = 90;
+        public static final int MidBrightnessAngle = 180;
+        public static final int ZeroBrightnessAngle = 270;
+        public static final int VbatButton = XboxController.Button.kA.value;
+        public static final int V5Button = XboxController.Button.kB.value;
+        public static final int CurrentButton = XboxController.Button.kX.value;
+        public static final int TemperatureButton = XboxController.Button.kY.value;
 }
 
 }
