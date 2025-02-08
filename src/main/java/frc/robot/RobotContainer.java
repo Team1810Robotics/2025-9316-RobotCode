@@ -10,13 +10,20 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.commands.ShooterCommand;
+
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.Elevator_Subsystem;
 import frc.robot.subsystems.Vision_Subsystem;
+
 
 public class RobotContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -32,10 +39,12 @@ public class RobotContainer {
     private final CommandXboxController xbox = new CommandXboxController(1);
     private final CommandXboxController joystick = new CommandXboxController(0);
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+    public final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem();
     public final Elevator_Subsystem elevatorSubsystem = new Elevator_Subsystem(); // Initialize Elevator Subsystem
-
     private SendableChooser<Command> autoChooser = new SendableChooser<>();
     public final Vision_Subsystem visionSubsystem = new Vision_Subsystem();
+
 
     public RobotContainer() {
         configureBindings();
@@ -73,6 +82,9 @@ public class RobotContainer {
         joystick.leftBumper().whileTrue(new InstantCommand(() -> elevatorSubsystem.controlElevator(-0.5))); // Lower elevator
 
         drivetrain.registerTelemetry(logger::telemeterize);
+
+        joystick.a().whileTrue(new ShooterCommand(shooterSubsystem, MaxAngularRate));
+
     }
 
     public Command getAutonomousCommand() {
