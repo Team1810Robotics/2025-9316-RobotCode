@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -23,7 +24,9 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    m_robotContainer.algaeSubsystem.distanceSensor.setAutomaticMode(false);
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -54,7 +57,9 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    CommandScheduler.getInstance().schedule(Commands.print(Double.toString(m_robotContainer.algaeSubsystem.getDistanceSensor())));
+  }
 
   @Override
   public void teleopExit() {}
