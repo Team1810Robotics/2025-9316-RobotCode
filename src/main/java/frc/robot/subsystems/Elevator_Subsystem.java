@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 
@@ -13,7 +12,6 @@ public class Elevator_Subsystem extends SubsystemBase {
     private SparkMax elevatorMotor;
     private Encoder elevatorEncoder;
     private PIDController elevatorPID;
-
     private SparkMax elevatorMotor2;
     
     public Elevator_Subsystem() {
