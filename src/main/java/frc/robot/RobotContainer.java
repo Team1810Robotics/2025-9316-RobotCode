@@ -20,9 +20,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.Elevator_Subsystem;
-import frc.robot.subsystems.Vision_Subsystem;
+
 
 
 public class RobotContainer {
@@ -39,6 +40,8 @@ public class RobotContainer {
     private final CommandXboxController xbox = new CommandXboxController(1);
     private final CommandXboxController joystick = new CommandXboxController(0);
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    public final VisionSubsystem visionSubsystem = new VisionSubsystem();
+
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
     public final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem();
     public final Elevator_Subsystem elevatorSubsystem = new Elevator_Subsystem(); // Initialize Elevator Subsystem
