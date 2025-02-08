@@ -12,7 +12,10 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.ShooterCommand;
+
 
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -50,8 +53,15 @@ public class RobotContainer {
     public final VisionSubsystem visionSubsystem = new VisionSubsystem();
 
 
+    private SendableChooser<Command> autoChooser = new SendableChooser<>();
+
     public RobotContainer() {
         configureBindings();
+    }
+
+
+    private void offLineAuto(){
+       // return driveSubsystem.drive(-.5,-.5).withTimeout(2);
     }
 
     private void configureBindings() {
@@ -95,9 +105,13 @@ public class RobotContainer {
         return Commands.print("No autonomous command configured");
     }
 
-    public void setElastic()    {
+
+    public void setElastic(){
+        // TODO - ADD LOCATION FOR SENSORS
         autoChooser.setDefaultOption("No Auto", new InstantCommand());
         autoChooser.addOption("Option1", new InstantCommand());
         autoChooser.addOption("Option2", new InstantCommand());
     }
+
 }
+
