@@ -48,13 +48,10 @@ public class RobotContainer {
 
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
     public final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem();
-    public final Elevator_Subsystem elevatorSubsystem = new Elevator_Subsystem(); // Initialize Elevator Subsystem
     private SendableChooser<Command> autoChooser = new SendableChooser<>();
-    public final VisionSubsystem visionSubsystem = new VisionSubsystem();
+   
 
-
-    private SendableChooser<Command> autoChooser = new SendableChooser<>();
-
+   
     public RobotContainer() {
         configureBindings();
     }
