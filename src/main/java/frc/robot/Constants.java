@@ -27,7 +27,20 @@ public class Constants {
 
 
   public static final class ShooterConstants {
-        //dont know yet
+
+        public static final int MOTOR_ID = 11; // Coral Intake
+        /*
+
+         See Wiring Spreadsheet for more details:
+
+        https://docs.google.com/spreadsheets/d/1y8MNmf4Ztvmj5xiLHOoS9DUJrCoks60W2GWf0nozFus/edit?gid=2021393044#gid=2021393044
+         
+        */
+        public static final int BEAM1_ID = 40; // Hopper Beam Break
+        public static final int BEAM2_ID = 41; // Inside Intake Beam Break
+        public static final int BEAM3_ID = 42; // Outside Intake Beam Break
+
+        //TODO: dont know yet
         public static final int MOTOR_ID = 0;
         public static final int ELEVATOR_BEAM_ID = 0;
         public static final int HOPPER_BEAM_ID = 0;
@@ -38,6 +51,7 @@ public class Constants {
     public class AlgaeConstants {
         public static final int MOTOR_ID = 0;
         public static final Port DISTANCE_SENSOR_PORT = edu.wpi.first.wpilibj.I2C.Port.kOnboard;
+
     }
     public class IntakeConstants {
         public static int INTAKE_MOTOR = 25;
