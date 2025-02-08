@@ -1,12 +1,11 @@
-dependencies {
-    implementation 'com.thethriftybot.frc:ThriftyLib-java:2025.0.2'
-}
-
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2025.2.1"
 }
 
+dependencies {
+    implementation 'com.thethriftybot.frc:ThriftyLib-java:2025.0.2'
+}
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17

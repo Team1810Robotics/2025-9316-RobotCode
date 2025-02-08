@@ -13,7 +13,7 @@ import com.revrobotics.*;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
-
+//Note Details on distance center driver installed from here: https://github.com/REVrobotics/2m-Distance-Sensor/?tab=readme-ov-file
 public class AlgaeSubsystem extends SubsystemBase {
    private SparkMax motor;
 

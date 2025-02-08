@@ -47,7 +47,7 @@ public class VisionSubsystem extends SubsystemBase {
     Transform3d robotToCam = VisionConstants.CAMERA_OFFSET;
 
 AprilTagFieldLayout AprilTagFieldLayout = 
-Constants.APRIL_TAG_FIELD_LAYOUT;
+VisionConstants.APRIL_TAG_FIELD_LAYOUT;
 
     PhotonCamera camera;
     PhotonPoseEstimator photonPoseEstimator;
