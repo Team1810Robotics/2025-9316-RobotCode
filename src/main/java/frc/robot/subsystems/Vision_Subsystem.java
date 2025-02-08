@@ -51,7 +51,10 @@ Constants.APRIL_TAG_FIELD_LAYOUT;
 
     PhotonCamera camera;
     PhotonPoseEstimator photonPoseEstimator;
-    static PhotonPipelineResult result;
+
+    List<PhotonPipelineResult> allResults;
+    PhotonPipelineResult result; 
+
 
     AprilTagFieldLayout aprilTagFieldLayout =
             AprilTagFields.k2025Reefscape.loadAprilTagLayoutField();
@@ -64,13 +67,13 @@ Constants.APRIL_TAG_FIELD_LAYOUT;
         photonPoseEstimator =
                 new PhotonPoseEstimator(
                         AprilTagFieldLayout,
-                        PoseStrategy.CLOSEST_TO_REFERENCE_POSE,
-  
+
+                        PoseStrategy.CLOSEST_TO_REFERENCE_POSE,                    
                         robotToCam);
-
-        result = camera.getLatestResult();
-
+        allResults = camera.getAllUnreadResults();
+        result = allResults.get(allResults.size() - 1);
         SmartDashboard.putData("VisPID", spinPIDController);
+
     }
     
       @Override
@@ -85,21 +88,6 @@ Constants.APRIL_TAG_FIELD_LAYOUT;
 //TODO: Review to ensure correctly instantiated
       PIDController rotPidController =
             new PIDController(VisionConstants.V_Kp, VisionConstants.V_Ki, VisionConstants.V_Kd);
-
-
-    /**
-     * @return whether or not an AprilTag is detected
-     */
-    public boolean hasTarget() {
-        return result.hasTargets();
-    }
-
-    public Optional<Double>getYaw() {
-        if (hasTarget()) { 
-            return Optional.of(result.getBestTarget().getYaw());
-        } 
-        else{return Optional.empty();}
-    }
 
 
     /**
@@ -120,7 +108,26 @@ Constants.APRIL_TAG_FIELD_LAYOUT;
         return result.getTargets();
     }
 
- 
+    @Override
+    public void periodic() {
+        allResults = camera.getAllUnreadResults();
+        result = allResults.get(allResults.size() - 1);
+    }
+
+      /**
+     * @return whether or not an AprilTag is detected
+     */
+    public boolean hasTarget() {
+        return result.hasTargets();
+    }
+
+    public Optional<Double>getYaw() {
+        if (hasTarget()) { 
+            return Optional.of(result.getBestTarget().getYaw());
+        } 
+        else{return Optional.empty();}
+    }
+
 
     public double visionTargetPIDCalc(
 
