@@ -55,7 +55,7 @@ Constants.APRIL_TAG_FIELD_LAYOUT;
 
     public Optional<Double>getYaw() {
         if (hasTarget()) { 
-            return Optional.of(result.getBestTarget().getYaw())
+            return Optional.of(result.getBestTarget().getYaw());
         } 
         else{return Optional.empty();}
     }
