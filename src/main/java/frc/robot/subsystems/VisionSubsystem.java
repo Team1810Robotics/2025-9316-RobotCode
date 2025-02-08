@@ -76,6 +76,19 @@ Constants.APRIL_TAG_FIELD_LAYOUT;
 
     }
     
+
+      @Override
+      public void periodic() {
+        allResults = camera.getAllUnreadResults();
+        result = allResults.get(allResults.size() - 1);
+        result = camera.getLatestResult();
+        // This method will be called once per scheduler 
+        
+        //Shuffleboard.getTab("Vision").addBoolean("Has Tag", () -> result.hasTargets());
+        //Shuffleboard.getTab("vision").addDouble("Yaw To Target", () -> getYaw().get());
+        //SmartDashboard.putNumber("pidVis", visionTargetPIDCalc(RobotContainer.joystick.getZ(), ))
+      }
+
 //TODO: Review to ensure correctly instantiated
       PIDController rotPidController =
             new PIDController(VisionConstants.V_Kp, VisionConstants.V_Ki, VisionConstants.V_Kd);
@@ -99,11 +112,6 @@ Constants.APRIL_TAG_FIELD_LAYOUT;
         return result.getTargets();
     }
 
-    @Override
-    public void periodic() {
-        allResults = camera.getAllUnreadResults();
-        result = allResults.get(allResults.size() - 1);
-    }
 
       /**
      * @return whether or not an AprilTag is detected
