@@ -35,7 +35,6 @@ Constants.APRIL_TAG_FIELD_LAYOUT;
                 new PhotonPoseEstimator(
                         aprilTagFieldLayout,
                         PoseStrategy.CLOSEST_TO_REFERENCE_POSE,
-                        camera,
                         robotToCam);
         result = camera.getLatestResult();
     }
