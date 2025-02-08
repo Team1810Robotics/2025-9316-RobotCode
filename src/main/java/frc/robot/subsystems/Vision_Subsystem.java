@@ -21,7 +21,7 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonPipelineResult;
-
+import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -34,6 +34,7 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.VisionConstants;
+import org.photonvision.targeting.PhotonPipelineResult;
 
 
 
@@ -69,7 +70,7 @@ Constants.APRIL_TAG_FIELD_LAYOUT;
 
         result = camera.getLatestResult();
 
-        SmartDashboard.putData("VisPID", rotController);
+        SmartDashboard.putData("VisPID", spinPIDController);
     }
     
       @Override
@@ -119,10 +120,7 @@ Constants.APRIL_TAG_FIELD_LAYOUT;
         return result.getTargets();
     }
 
-    @Override
-    public void periodic() {
-        result = camera.getLatestResult();
-    }
+ 
 
     public double visionTargetPIDCalc(
 
