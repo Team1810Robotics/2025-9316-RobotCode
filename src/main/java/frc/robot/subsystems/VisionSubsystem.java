@@ -76,6 +76,7 @@ Constants.APRIL_TAG_FIELD_LAYOUT;
 
     }
     
+
       @Override
       public void periodic() {
         allResults = camera.getAllUnreadResults();
@@ -87,6 +88,7 @@ Constants.APRIL_TAG_FIELD_LAYOUT;
         //Shuffleboard.getTab("vision").addDouble("Yaw To Target", () -> getYaw().get());
         //SmartDashboard.putNumber("pidVis", visionTargetPIDCalc(RobotContainer.joystick.getZ(), ))
       }
+
 //TODO: Review to ensure correctly instantiated
       PIDController rotPidController =
             new PIDController(VisionConstants.V_Kp, VisionConstants.V_Ki, VisionConstants.V_Kd);
