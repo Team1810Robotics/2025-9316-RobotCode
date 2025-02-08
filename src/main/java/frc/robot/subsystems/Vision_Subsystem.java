@@ -33,6 +33,7 @@ Constants.APRIL_TAG_FIELD_LAYOUT;
 
     PhotonCamera camera;
     PhotonPoseEstimator photonPoseEstimator;
+    List<PhotonPipelineResult> allResults;
     PhotonPipelineResult result; 
 
      public Vision_Subsystem() {
@@ -40,26 +41,11 @@ Constants.APRIL_TAG_FIELD_LAYOUT;
         photonPoseEstimator =
                 new PhotonPoseEstimator(
                         AprilTagFieldLayout,
-                        PoseStrategy.CLOSEST_TO_REFERENCE_POSE,
-                        
+                        PoseStrategy.CLOSEST_TO_REFERENCE_POSE,                    
                         robotToCam);
-        result = camera.getLatestResult();
+        allResults = camera.getAllUnreadResults();
+        result = allResults.get(allResults.size() - 1);
     }
-
-    /**
-     * @return whether or not an AprilTag is detected
-     */
-    public boolean hasTarget() {
-        return result.hasTargets();
-    }
-
-    public Optional<Double>getYaw() {
-        if (hasTarget()) { 
-            return Optional.of(result.getBestTarget().getYaw());
-        } 
-        else{return Optional.empty();}
-    }
-
 
     /**
      * @return the best target's ID
@@ -81,7 +67,22 @@ Constants.APRIL_TAG_FIELD_LAYOUT;
 
     @Override
     public void periodic() {
-        result = camera.getLatestResult();
+        allResults = camera.getAllUnreadResults();
+        result = allResults.get(allResults.size() - 1);
+    }
+
+      /**
+     * @return whether or not an AprilTag is detected
+     */
+    public boolean hasTarget() {
+        return result.hasTargets();
+    }
+
+    public Optional<Double>getYaw() {
+        if (hasTarget()) { 
+            return Optional.of(result.getBestTarget().getYaw());
+        } 
+        else{return Optional.empty();}
     }
 
     public double visionTargetPIDCalc(
