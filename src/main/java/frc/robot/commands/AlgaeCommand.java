@@ -16,7 +16,7 @@ public class AlgaeCommand extends Command {
  
     @Override
     public void initialize() {
-        algaeSubsystem.distanceSensor.setAutomaticMode(true);
+        //algaeSubsystem.distanceSensor.setAutomaticMode(true);
     }
 
     @Override
