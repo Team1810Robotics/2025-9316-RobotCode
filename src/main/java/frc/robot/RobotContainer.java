@@ -89,8 +89,8 @@ public class RobotContainer {
         ));
 
         // Bind Xbox controller buttons to elevator control
-        joystick.rightBumper().whileTrue(new InstantCommand(() -> elevatorSubsystem.controlElevator(0.5))); // Raise elevator
-        joystick.leftBumper().whileTrue(new InstantCommand(() -> elevatorSubsystem.controlElevator(-0.5))); // Lower elevator
+        joystick.rightBumper().whileTrue(new InstantCommand(() -> elevatorSubsystem.controlElevator(0.3))); // Raise elevator
+        joystick.leftBumper().whileTrue(new InstantCommand(() -> elevatorSubsystem.controlElevator(-0.3))); // Lower elevator
 
         drivetrain.registerTelemetry(logger::telemeterize);
 

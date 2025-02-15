@@ -9,8 +9,7 @@ import edu.wpi.first.units.Unit;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.*;
-
-
+import com.revrobotics.Rev2mDistanceSensor.Port;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 //Note Details on distance center driver installed from here: https://github.com/REVrobotics/2m-Distance-Sensor/?tab=readme-ov-file
@@ -28,12 +27,12 @@ public class AlgaeSubsystem extends SubsystemBase {
         motor.set(speed);
     }
 
-    public double getDistanceSensor() {
-        if (distanceSensor.isRangeValid()){
-            return distanceSensor.getRange();
-        }
-        return -1;
-    }
+     public double getDistanceSensor() {
+         if (distanceSensor.isRangeValid()){
+             return distanceSensor.getRange();
+         }
+         return -1;
+     }
 
     public void stop(){
         motor.stopMotor();
