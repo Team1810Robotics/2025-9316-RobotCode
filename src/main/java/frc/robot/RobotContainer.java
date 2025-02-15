@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.ShooterCommand;
 
+
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,6 +26,7 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+
 
 public class RobotContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -37,53 +39,71 @@ public class RobotContainer {
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
-    private final CommandXboxController xbox = new CommandXboxController(1); // Xbox controller
-    private final CommandXboxController joystick = new CommandXboxController(0); // Joystick controller
+    private final CommandXboxController xbox = new CommandXboxController(1);
+    private final CommandXboxController joystick = new CommandXboxController(0);
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     public final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem(); // Initialize Elevator Subsystem
     public final VisionSubsystem visionSubsystem = new VisionSubsystem();
 
+
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
     public final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem();
     private SendableChooser<Command> autoChooser = new SendableChooser<>();
+   
 
+   
     public RobotContainer() {
         configureBindings();
+    }
+
+
+    private void offLineAuto(){
+       // return driveSubsystem.drive(-.5,-.5).withTimeout(2);
     }
 
     private void configureBindings() {
         drivetrain.setDefaultCommand(
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(-joystick.getLeftY() * MaxSpeed)
-                    .withVelocityY(-joystick.getLeftX() * MaxSpeed)
-                    .withRotationalRate(-visionSubsystem.visionTargetPIDCalc(joystick.getRightX(), joystick.a().getAsBoolean()) * MaxAngularRate)
+                drive.withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+                    .withVelocityY(-joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+                    .withRotationalRate(-visionSubsystem.visionTargetPIDCalc(joystick.getRightX(), joystick.a().getAsBoolean()) * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
-    
-        // Bind Xbox D-Pad controls for elevator movement
-        xbox.povUp().whileTrue(new InstantCommand(() -> elevatorSubsystem.controlElevator(0.5)));  // Move Up
-        xbox.povDown().whileTrue(new InstantCommand(() -> elevatorSubsystem.controlElevator(-0.5))); // Move Down
-        xbox.povUp().or(xbox.povDown()).negate().onTrue(new InstantCommand(() -> elevatorSubsystem.controlElevator(0))); // Stop when not pressed
-    
+        
+        if(xbox.x().getAsBoolean()){
+            elevatorSubsystem.setPower(0.1);
+            System.out.println("High");
+        } else {
+            //elevatorSubsystem.setPower(0);
+        }
+        if(xbox.y().getAsBoolean()){
+            elevatorSubsystem.setPower(-0.1);
+        } else {
+            //elevatorSubsystem.setPower(0);
+        }
+
+
         joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
         joystick.b().whileTrue(drivetrain.applyRequest(() ->
             point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
         ));
 
         // Bind Xbox controller buttons to elevator control
-        joystick.rightBumper().whileTrue(new InstantCommand(() -> elevatorSubsystem.controlElevator(0.5))); // Raise elevator
-        joystick.leftBumper().whileTrue(new InstantCommand(() -> elevatorSubsystem.controlElevator(-0.5))); // Lower elevator
+        joystick.rightBumper().whileTrue(new InstantCommand(() -> elevatorSubsystem.controlElevator(0.3))); // Raise elevator
+        joystick.leftBumper().whileTrue(new InstantCommand(() -> elevatorSubsystem.controlElevator(-0.3))); // Lower elevator
 
         drivetrain.registerTelemetry(logger::telemeterize);
+
         joystick.a().whileTrue(new ShooterCommand(shooterSubsystem, MaxAngularRate));
+
     }
-    
 
     public Command getAutonomousCommand() {
         return Commands.print("No autonomous command configured");
     }
 
-    public void setElastic() {
+
+    public void setElastic(){
         // TODO - ADD LOCATION FOR SENSORS
         autoChooser.setDefaultOption("No Auto", new InstantCommand());
         autoChooser.addOption("Option1", new InstantCommand());

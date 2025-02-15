@@ -16,10 +16,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
 
     public ShooterSubsystem() {
-        motor = new SparkMax(ShooterConstants.MOTOR_ID, MotorType.kBrushless);
-        shooterBeam = new DigitalInput(ShooterConstants.SHOOTER_BEAM_ID);
-        hopperBeam = new DigitalInput(ShooterConstants.HOPPER_BEAM_ID);
-        elevatorBeam = new DigitalInput(ShooterConstants.ELEVATOR_BEAM_ID);
+        motor = new SparkMax(ShooterConstants.SHOOTER_MOTOR_ID, MotorType.kBrushless);
+        shooterBeam = new DigitalInput(ShooterConstants.SHOOTER_BEAM_BREAK_ID);
+        hopperBeam = new DigitalInput(ShooterConstants.HOPPER_BEAM_BREAK_ID);
+        elevatorBeam = new DigitalInput(ShooterConstants.ELEVATOR_BEAM_BREAK_ID);
     }
 
     public void setSpeed(double speed){
