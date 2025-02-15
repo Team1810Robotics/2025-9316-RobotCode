@@ -9,6 +9,8 @@ import edu.wpi.first.units.Unit;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.*;
+
+
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 //Note Details on distance center driver installed from here: https://github.com/REVrobotics/2m-Distance-Sensor/?tab=readme-ov-file
@@ -19,7 +21,7 @@ public class AlgaeSubsystem extends SubsystemBase {
 
     public AlgaeSubsystem() {
         distanceSensor = new Rev2mDistanceSensor(Port.kOnboard);
-        motor = new SparkMax(AlgaeConstants.ALGAE_MOTOR_ID, MotorType.kBrushless);
+        motor = new SparkMax(AlgaeConstants.MOTOR_ID, MotorType.kBrushless);
     }
 
     public void setSpeed(double speed){
