@@ -69,7 +69,11 @@ public class RobotContainer {
         joystick.b().whileTrue(drivetrain.applyRequest(() ->
             point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
         ));
-    
+
+        // Bind Xbox controller buttons to elevator control
+        joystick.rightBumper().whileTrue(new InstantCommand(() -> elevatorSubsystem.controlElevator(0.5))); // Raise elevator
+        joystick.leftBumper().whileTrue(new InstantCommand(() -> elevatorSubsystem.controlElevator(-0.5))); // Lower elevator
+
         drivetrain.registerTelemetry(logger::telemeterize);
         joystick.a().whileTrue(new ShooterCommand(shooterSubsystem, MaxAngularRate));
     }

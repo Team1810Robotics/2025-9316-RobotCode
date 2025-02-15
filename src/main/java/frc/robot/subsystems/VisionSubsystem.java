@@ -71,7 +71,7 @@ VisionConstants.APRIL_TAG_FIELD_LAYOUT;
                         PoseStrategy.CLOSEST_TO_REFERENCE_POSE,                    
                         robotToCam);
         allResults = camera.getAllUnreadResults();
-        result = allResults.get(allResults.size() - 1);
+
         SmartDashboard.putData("VisPID", spinPIDController);
 
     }
@@ -80,7 +80,8 @@ VisionConstants.APRIL_TAG_FIELD_LAYOUT;
       @Override
       public void periodic() {
         allResults = camera.getAllUnreadResults();
-        result = allResults.get(allResults.size() - 1);
+        
+        // result = allResults.get(allResults.size() - 1);
         result = camera.getLatestResult();
         // This method will be called once per scheduler 
         
