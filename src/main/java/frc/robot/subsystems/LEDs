@@ -3,6 +3,9 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import com.ctre.phoenix.led.*;
+import com.ctre.phoenix.led.CANdle.LEDStripType;
+import com.ctre.phoenix.led.CANdle.VBatOutputMode;
 
 private Animation m_toAnimate = null;
 
@@ -43,6 +46,6 @@ public void incrementAnimation(){
         case Strobe: changeAnimation(AnimationTypes.Twinkle); break;
         case Twinkle: changeAnimation(AnimationTypes.TwinkleOff); break;
         case TwinkleOff: changeAnimation(AnimationTypes.ColorFlow); break;
-        case SetAll: changeAnimation(AnimationTypes.ColorFlow); break;
+        case SetAll: changeAnimation(AnimationTypes.CANdle); break;
     }
 }

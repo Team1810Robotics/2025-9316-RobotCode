@@ -80,11 +80,11 @@ public class Constants {
 
 
     public static final class LEDConstants{ 
-        public static final double Yellow[] = {245, 239, 66};
+        public static final double Yellow[] = {255, 255, };
         public static final double White[] = {255, 255, 255};
         public static final double Orange[] = {255, 128, 0};
-        public static final double Green[] = {60, 255, 0};
-        public static final int CANdleID = 1;
+        public static final double Green[] = {0, 255, 0};
+        public static final int CANdleID = 35;
         public static final int MaxBrightnessAngle = 90;
         public static final int MidBrightnessAngle = 180;
         public static final int ZeroBrightnessAngle = 270;
@@ -94,4 +94,10 @@ public class Constants {
         public static final int TemperatureButton = XboxController.Button.kY.value;
 
         }
+
+
+
+
+
+   
 }

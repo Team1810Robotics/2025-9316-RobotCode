@@ -19,23 +19,38 @@ public class AlgaeCommand extends Command {
         algaeSubsystem.distanceSensor.setAutomaticMode(true);
     }
 
+    
+        // Reset any other variables to factory defaults
+   
     @Override
     public void execute() {
-        algaeSubsystem.setSpeed(1);
+        //algaeSubsystem.setSpeed(1);
+        /* if the distance is over 1 meter or not determined, than the motor stops
+         * if the distance is less than 1m and greater than 8 cm than the motor runs normally
+         * if the distance is less than 8 cm then the motor runs slowly.
+         */
+         double distance = algaeSubsystem.getDistanceSensor();
+        if (distance > 8 && distance <= 100) {
+            algaeSubsystem.setSpeed(1);
+        } else if (distance <= 8 && distance > 0) {
+            algaeSubsystem.setSpeed(0.05);
+        } else if (distance <= 0 || distance > 100) {
+            algaeSubsystem.stop();
+        }
     }
 
     // @Override
     // public boolean isFinished() {
-    //     double distance = algaeSubsystem.getDistanceSensor();
-    //     if (distance <= 0 && distance > 0) {
-    //         //TODO: tune first value may be 7cm 
-    //         return true;
-    //     } else if(distance < 0){
-    //         CommandScheduler.getInstance().schedule(Commands.print("Invalid range"));
-    //         return true;
-    //     }
+        // double distance = algaeSubsystem.getDistanceSensor();
+        // if (distance <= 0 && distance > 0) {
+        //     //TODO: tune first value may be 7cm 
+        //     return true;
+        // } else if(distance < 0){
+        //     CommandScheduler.getInstance().schedule(Commands.print("Invalid range"));
+        //     return true;
+        // }
 
-    //     return false;
+        // return false;
     // }
 
     @Override
