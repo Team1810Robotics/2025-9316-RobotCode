@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.AlgaeCommand;
-import frc.robot.commands.ShooterCommand;
+
 
 
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -24,9 +24,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.CoralHandlerSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.CoralHandlerSubsystem;
 
 
 public class RobotContainer {
@@ -47,7 +48,7 @@ public class RobotContainer {
     public final VisionSubsystem visionSubsystem = new VisionSubsystem();
 
 
-    private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+    private final CoralHandlerSubsystem coralHandlerSubsystem = new CoralHandlerSubsystem();
     public final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem();
     private SendableChooser<Command> autoChooser = new SendableChooser<>();
    
@@ -99,7 +100,7 @@ public class RobotContainer {
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
-        joystick.a().whileTrue(new ShooterCommand(shooterSubsystem, MaxAngularRate));
+        // joystick.a().whileTrue(new ShooterCommand(shooterSubsystem, MaxAngularRate));
 
     }
 
