@@ -7,10 +7,10 @@ import frc.robot.subsystems.AlgaeSubsystem;
 
 public class AlgaeCommand extends Command {
     private AlgaeSubsystem algaeSubsystem;
-
-    public AlgaeCommand(AlgaeSubsystem algaeSubsystem){
+ private boolean eject;
+    public AlgaeCommand(AlgaeSubsystem algaeSubsystem, boolean eject){
         this.algaeSubsystem = algaeSubsystem;
-
+        this.eject = eject;
         addRequirements(algaeSubsystem);
     }
  
@@ -29,14 +29,21 @@ public class AlgaeCommand extends Command {
          * if the distance is less than 1m and greater than 8 cm than the motor runs normally
          * if the distance is less than 8 cm then the motor runs slowly.
          */
-         double distance = algaeSubsystem.getDistanceSensor();
-        if (distance > 8 && distance <= 100) {
-            algaeSubsystem.setSpeed(1);
-        } else if (distance <= 8 && distance > 0) {
-            algaeSubsystem.setSpeed(0.05);
-        } else if (distance <= 0 || distance > 100) {
-            algaeSubsystem.stop();
+        double distance = algaeSubsystem.getDistanceSensor();
+
+        if (eject){
+            algaeSubsystem.setSpeed(-1);
+           
+        }else {
+            if (distance > 8 && distance <= 100) {
+                algaeSubsystem.setSpeed(0.4);
+            } else if (distance <= 8 && distance > 0) {
+                algaeSubsystem.setSpeed(0.05);
+            } else if (distance <= 0 || distance > 100) {
+                algaeSubsystem.stop();
+            }
         }
+       
     }
 
     // @Override

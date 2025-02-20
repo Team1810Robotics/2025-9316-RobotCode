@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import frc.robot.commands.AlgaeCommand;
 import frc.robot.commands.ShooterCommand;
 
 
@@ -53,6 +54,8 @@ public class RobotContainer {
 
    
     public RobotContainer() {
+        algaeSubsystem.setDefaultCommand(new AlgaeCommand(algaeSubsystem, false));
+        
         configureBindings();
     }
 
@@ -81,6 +84,8 @@ public class RobotContainer {
         } else {
             //elevatorSubsystem.setPower(0);
         }
+
+        xbox.leftBumper().whileTrue(new AlgaeCommand(algaeSubsystem, true));
 
 
         joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
