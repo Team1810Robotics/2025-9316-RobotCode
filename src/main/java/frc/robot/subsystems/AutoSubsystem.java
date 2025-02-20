@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkMax;
-
-public class AutoSubsystem {
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+public class AutoSubsystem extends SubsystemBase{
     
 }
