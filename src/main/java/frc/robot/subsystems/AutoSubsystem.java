@@ -13,8 +13,12 @@ private static final Logger logger = Logger.getLogger(AutoSubsystem.class.getNam
     }
     public static void Option1(){
         logger.info("Option 1 Chosen");
+        // 1. TEST
+        // 2. TO-DO PASTE CODE FOR ROBOT TO FOLLOW PATH
     }
     public static void Option2(){
         logger.info("Option 2 Chosen");
+        // 1. TEST
+        // 2. TO-DO PASTE CODE FOR ROBOT TO FOLLOW PATH
     }
 }
