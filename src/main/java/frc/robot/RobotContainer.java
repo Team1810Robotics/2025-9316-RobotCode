@@ -16,21 +16,20 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.ShooterCommand;
 
-
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.CoralHandlerSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
-
 public class RobotContainer {
-    private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+    private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
+    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond);
 
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1)
@@ -42,31 +41,23 @@ public class RobotContainer {
     private final CommandXboxController xbox = new CommandXboxController(1);
     private final CommandXboxController joystick = new CommandXboxController(0);
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-    public final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem(); // Initialize Elevator Subsystem
+    public final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
     public final VisionSubsystem visionSubsystem = new VisionSubsystem();
-
-
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
     public final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem();
+    public final CoralHandlerSubsystem coralHandlerSubsystem = new CoralHandlerSubsystem();
     private SendableChooser<Command> autoChooser = new SendableChooser<>();
-   
 
-   
     public RobotContainer() {
         configureBindings();
-    }
-
-
-    private void offLineAuto(){
-       // return driveSubsystem.drive(-.5,-.5).withTimeout(2);
     }
 
     private void configureBindings() {
         drivetrain.setDefaultCommand(
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(-joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-                    .withRotationalRate(-visionSubsystem.visionTargetPIDCalc(joystick.getRightX(), joystick.a().getAsBoolean()) * MaxAngularRate) // Drive counterclockwise with negative X (left)
+                drive.withVelocityX(-joystick.getLeftY() * MaxSpeed)
+                    .withVelocityY(-joystick.getLeftX() * MaxSpeed)
+                    .withRotationalRate(-visionSubsystem.visionTargetPIDCalc(joystick.getRightX(), joystick.a().getAsBoolean()) * MaxAngularRate)
             )
         );
         
@@ -82,29 +73,24 @@ public class RobotContainer {
             //elevatorSubsystem.setPower(0);
         }
 
-
         joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
         joystick.b().whileTrue(drivetrain.applyRequest(() ->
             point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
         ));
 
-        // Bind Xbox controller buttons to elevator control
-        joystick.rightBumper().whileTrue(new InstantCommand(() -> elevatorSubsystem.controlElevator(0.3))); // Raise elevator
-        joystick.leftBumper().whileTrue(new InstantCommand(() -> elevatorSubsystem.controlElevator(-0.3))); // Lower elevator
+        joystick.rightBumper().whileTrue(new InstantCommand(() -> elevatorSubsystem.controlElevator(0.3)));
+        joystick.leftBumper().whileTrue(new InstantCommand(() -> elevatorSubsystem.controlElevator(-0.3)));
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
         joystick.a().whileTrue(new ShooterCommand(shooterSubsystem, MaxAngularRate));
-
     }
 
     public Command getAutonomousCommand() {
         return Commands.print("No autonomous command configured");
     }
 
-
     public void setElastic(){
-        // TODO - ADD LOCATION FOR SENSORS
         autoChooser.setDefaultOption("No Auto", new InstantCommand());
         autoChooser.addOption("Option1", new InstantCommand());
         autoChooser.addOption("Option2", new InstantCommand());

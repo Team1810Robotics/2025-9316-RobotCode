@@ -1,41 +1,89 @@
 package frc.robot.subsystems;
-import com.revrobotics.Rev2mDistanceSensor.Port;
-import com.revrobotics.jni.DistanceSensorJNIWrapper;
+
 import com.revrobotics.spark.SparkMax;
-
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.AlgaeConstants;
-import edu.wpi.first.units.Unit;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import com.revrobotics.*;
-
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkBase.PersistMode;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import edu.wpi.first.wpilibj.AnalogInput;
 
-//Note Details on distance center driver installed from here: https://github.com/REVrobotics/2m-Distance-Sensor/?tab=readme-ov-file
+
 public class AlgaeSubsystem extends SubsystemBase {
-   private SparkMax motor;
 
-   public Rev2mDistanceSensor distanceSensor;
+    // Constants
+    private static final int ALGAE_MOTOR_CAN_ID = 11; // Placeholder
+    private static final int ALGAE_DISTANCE_SENSOR_PORT = 0; // Placeholder
+    private static final double HOLD_POWER = 0.1; // Minimal power to hold algae
+    private static final double INTAKE_POWER = 0.5; // Power to pull algae in
+    private static final double EJECT_POWER = -0.5; // Power to eject algae
+    private static final double HOLD_DISTANCE_CM = 6.0; // Distance to hold algae
+
+    // Hardware
+    private final SparkMax algaeMotor;
+    private final AnalogInput algaeDistanceSensor;
+
+    private boolean isEjecting = false;
 
     public AlgaeSubsystem() {
-        distanceSensor = new Rev2mDistanceSensor(Port.kOnboard);
-        motor = new SparkMax(AlgaeConstants.MOTOR_ID, MotorType.kBrushless);
+        algaeMotor = new SparkMax(ALGAE_MOTOR_CAN_ID, MotorType.kBrushless);
+        algaeDistanceSensor = new AnalogInput(ALGAE_DISTANCE_SENSOR_PORT);
+
+        SparkMaxConfig algaeMotorConfig = new SparkMaxConfig();
+        algaeMotorConfig
+            .smartCurrentLimit(40)
+            .idleMode(IdleMode.kBrake)
+            .inverted(false);
+
+        algaeMotor.configure(algaeMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
-    public void setSpeed(double speed){
-        motor.set(speed);
+    @Override
+    public void periodic() {
+        double distance = getDistanceCM();
+
+        if (isEjecting) {
+            algaeMotor.set(EJECT_POWER);
+            System.out.println("Ejecting Algae");
+        } else if (distance <= HOLD_DISTANCE_CM) {
+            algaeMotor.set(HOLD_POWER);
+            System.out.println("Holding Algae at " + distance + " cm");
+        } 
     }
 
-     public double getDistanceSensor() {
-         if (distanceSensor.isRangeValid()){
-             return distanceSensor.getRange();
-         }
-         return -1;
-     }
+    // Run the algae motor (used during scoring)
+    public void runAlgae() {
+        if (!isEjecting) {
+            algaeMotor.set(INTAKE_POWER);
+            System.out.println("Running Algae Intake");
+        }
+    }
 
-    public void stop(){
-        motor.stopMotor();
+    // Stop the algae motor
+    public void stopAlgae() {
+        if (!isEjecting) {
+            algaeMotor.set(0);
+            System.out.println("Stopping Algae Motor");
+        }
+    }
+
+    // Eject algae on command
+    public void ejectAlgae() {
+        isEjecting = true;
+        System.out.println("Ejecting Algae");
+    }
+
+    // Stop ejection
+    public void stopEject() {
+        isEjecting = false;
+        algaeMotor.set(0);
+    }
+
+    // Get distance in cm from sensor
+    private double getDistanceCM() {
+        // Placeholder conversion; adjust based on your REV Distance Sensor specs
+        return algaeDistanceSensor.getVoltage() * 100;
     }
 }
