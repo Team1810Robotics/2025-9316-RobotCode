@@ -12,12 +12,12 @@ public class CoralHandlerSubsystem extends SubsystemBase {
 
 
     // Beam Break Sensors
-    private final DigitalInput hopperBeamBreak = new DigitalInput(CoralHandlerConstants.HOPPER_BEAM_BREAK_PORT);
-    private final DigitalInput intakeBeamBreak = new DigitalInput(CoralHandlerConstants.INTAKE_BEAM_BREAK_PORT);
-    private final DigitalInput outtakeBeamBreak = new DigitalInput(CoralHandlerConstants.OUTTAKE_BEAM_BREAK_PORT);
+    private final DigitalInput hopperBeamBreak = new DigitalInput(CoralHandlerConstants.HOPPER_BEAM_BREAK_ID);
+    private final DigitalInput intakeBeamBreak = new DigitalInput(CoralHandlerConstants.INTAKE_BEAM_BREAK_ID);
+    private final DigitalInput outtakeBeamBreak = new DigitalInput(CoralHandlerConstants.OUTTAKE_BEAM_BREAK_ID);
 
     // Coral Handler Motor
-    private final SparkMax coralHandlerMotor = new SparkMax(CoralHandlerConstants.MOTOR_ID, MotorType.kBrushless);
+    private final SparkMax coralHandlerMotor = new SparkMax(CoralHandlerConstants.CORAL_HANDLER_MOTOR_ID, MotorType.kBrushless);
 
     // Elevator Movement Lock
     private boolean elevatorLocked = false;
