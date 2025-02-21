@@ -31,16 +31,14 @@ public class AlgaeSubsystem extends SubsystemBase {
        
     }
 
-    public double getDistanceSensor() {
-        if (distanceSensor.isRangeValid()){
-            return distanceSensor.getRange();
-        }
-        return -1;
-    }
+     public double getDistanceSensor() {
+         if (distanceSensor.isRangeValid()){
+             return distanceSensor.getRange();
+         }
+         return -1;
+     }
 
     public void stop(){
         motor.stopMotor();
     }
-
-
 }
