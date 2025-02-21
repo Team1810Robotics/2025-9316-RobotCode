@@ -3,7 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.I2C.Port;
 
 import com.revrobotics.spark.SparkMax;
-
+import frc.robot.subsystems.CoralHandlerSubsystem;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -32,9 +32,9 @@ public class Constants {
         }
     }
 
-  public static final class ShooterConstants {
+  public static final class CoralHandlerConstants {
 
-        public static final int SHOOTER_MOTOR_ID = 11; // Coral Intake
+        public static final int CORAL_HANDLER_MOTOR_ID = 11; // Coral Intake
         /*
 
          See Wiring Spreadsheet for more details:
@@ -42,29 +42,19 @@ public class Constants {
         https://docs.google.com/spreadsheets/d/1y8MNmf4Ztvmj5xiLHOoS9DUJrCoks60W2GWf0nozFus/edit?gid=2021393044#gid=2021393044
          
         */
-        public static final int HOPPER_BEAM_BREAK_ID = 40; // BEAM1 - Hopper Beam Break
-        public static final int ELEVATOR_BEAM_BREAK_ID = 41; // BEAM2 - Inside Intake Beam Break
-        public static final int SHOOTER_BEAM_BREAK_ID = 42; // BEAM3 - Outside Intake Beam Break
-
-        //TODO: dont know yet
-        public static final int ELEVATOR_BEAM_ID = 0;
-        public static final int HOPPER_BEAM_ID = 0;
-        public static final int SHOOTER_BEAM_ID = 0;
-        
+        public static final int HOPPER_BEAM_BREAK_ID = 0; // BEAM1 - Hopper Beam Break
+        public static final int INTAKE_BEAM_BREAK_ID = 1; // BEAM2 - Inside Intake Beam Break
+        public static final int OUTTAKE_BEAM_BREAK_ID = 2; // BEAM3 - Outside Intake Beam Break
+            
     }
 
     public class AlgaeConstants {
-        public static final int MOTOR_ID = 0;
+        public static final int MOTOR_ID = 12;
         public static final Port DISTANCE_SENSOR_PORT = edu.wpi.first.wpilibj.I2C.Port.kOnboard;
 
     }
 
-    public static final class IntakeConstants {
-        public static final int INTAKE_MOTOR_ID = 25; // Motor ID
-    }
-
-
-    
+       
 
     public static final class VisionConstants {
         public static final String TARGET_CAMERA = "Arducam_OV9281_USB_Camera";
