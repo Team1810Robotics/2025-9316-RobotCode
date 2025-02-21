@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.AlgaeSubsystem;
+import frc.robot.subsystems.AutoSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
@@ -99,14 +100,18 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return Commands.print("No autonomous command configured");
+        if (autoChooser.getSelected() != null){
+            return autoChooser.getSelected();
+        } else {
+            return Commands.print("No autonomous command configured, if a path was chosen, this is an error.");
+        }
     }
 
 
-    public void setElastic(){
-        // TODO - ADD LOCATION FOR SENSORS
-        autoChooser.setDefaultOption("No Auto", new InstantCommand());
-        autoChooser.addOption("Option1", new InstantCommand());
-        autoChooser.addOption("Option2", new InstantCommand());
+    public void Robot(){
+        autoChooser.setDefaultOption("No Auto", new InstantCommand(() -> AutoSubsystem.NoPath()));
+        autoChooser.addOption("Option1", null/* <--- Make different? */);
+        autoChooser.addOption("Option2", null/* <--- Make different?  */);
+        SmartDashboard.putData("Auto choices", autoChooser);
     }
 }
