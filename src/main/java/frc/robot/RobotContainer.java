@@ -23,11 +23,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.AlgaeSubsystem;
+import frc.robot.subsystems.AutoSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.CoralHandlerSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
-import frc.robot.subsystems.CoralHandlerSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.subsystems.AutoSubsystem;
 
 
 public class RobotContainer {
@@ -50,7 +54,7 @@ public class RobotContainer {
 
     private final CoralHandlerSubsystem coralHandlerSubsystem = new CoralHandlerSubsystem();
     public final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem();
-    private SendableChooser<Command> autoChooser = new SendableChooser<>();
+    private final SendableChooser<Command> autoChooser = new SendableChooser<>();
    
 
    
@@ -58,6 +62,7 @@ public class RobotContainer {
         algaeSubsystem.setDefaultCommand(new AlgaeCommand(algaeSubsystem, false));
         
         configureBindings();
+        configureAutoChooser();
     }
 
 
@@ -104,15 +109,29 @@ public class RobotContainer {
 
     }
 
+    private void configureAutoChooser() {
+        // Set default option
+        autoChooser.setDefaultOption("No Auto", new InstantCommand(() -> AutoSubsystem.getAutoCommand("NoPath")));
+
+        // Add PathPlanner paths
+        autoChooser.addOption("2 Left Auto", AutoSubsystem.getAutoCommand("2LeftAuto"));
+        autoChooser.addOption("2 Right Auto", AutoSubsystem.getAutoCommand("2RightAuto"));
+        autoChooser.addOption("Left Auto", AutoSubsystem.getAutoCommand("LeftAuto"));
+        autoChooser.addOption("Right Auto", AutoSubsystem.getAutoCommand("RightAuto"));
+        autoChooser.addOption("Middle Auto", AutoSubsystem.getAutoCommand("MiddleAuto"));
+
+        // Display on SmartDashboard
+        SmartDashboard.putData("Auto choices", autoChooser);
+    }
+
     public Command getAutonomousCommand() {
-        return Commands.print("No autonomous command configured");
+        if (autoChooser.getSelected() != null){
+            return autoChooser.getSelected();
+        } else {
+            return Commands.print("No autonomous command configured, if a path was chosen, this is an error.");
+        }
     }
 
 
-    public void setElastic(){
-        // TODO - ADD LOCATION FOR SENSORS
-        autoChooser.setDefaultOption("No Auto", new InstantCommand());
-        autoChooser.addOption("Option1", new InstantCommand());
-        autoChooser.addOption("Option2", new InstantCommand());
-    }
+
 }
