@@ -110,8 +110,8 @@ public class RobotContainer {
 
     public void Robot(){
         autoChooser.setDefaultOption("No Auto", new InstantCommand(() -> AutoSubsystem.NoPath()));
-        autoChooser.addOption("Option1", null/* <--- Make different? */);
-        autoChooser.addOption("Option2", null/* <--- Make different?  */);
+        autoChooser.addOption("Option1", new InstantCommand(() -> AutoSubsystem.Option1()));
+        autoChooser.addOption("Option2", new InstantCommand(() -> AutoSubsystem.Option2()));
         SmartDashboard.putData("Auto choices", autoChooser);
     }
 }
