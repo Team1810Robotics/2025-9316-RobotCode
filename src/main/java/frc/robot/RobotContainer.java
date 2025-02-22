@@ -2,6 +2,9 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+import java.io.IOException;
+import java.util.HashMap;
+
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -11,14 +14,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+
 import frc.robot.commands.AlgaeCommand;
-
-
-
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,10 +29,22 @@ import frc.robot.subsystems.AutoSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.CoralHandlerSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.RestClient;
 import frc.robot.subsystems.VisionSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.AutoSubsystem;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.action.index.IndexRequest;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @SuppressWarnings("unused") // For now :) 
 public class RobotContainer {
@@ -111,18 +124,16 @@ public class RobotContainer {
 
     private void configureAutoChooser() {
         // Set default option
-        autoChooser.setDefaultOption("No Auto", new InstantCommand(() -> AutoSubsystem.getAutoCommand("NoPath")));
+        autoChooser.setDefaultOption("No Auto", new InstantCommand(() -> AutoSubsystem.getAutoCommand("NoPathAuto")));
 
         // Add PathPlanner paths
-        autoChooser.addOption("2 Left Auto", AutoSubsystem.getAutoCommand("2LeftAuto"));
-        autoChooser.addOption("2 Right Auto", AutoSubsystem.getAutoCommand("2RightAuto"));
-        autoChooser.addOption("Left Auto", AutoSubsystem.getAutoCommand("LeftAuto"));
-        autoChooser.addOption("Right Auto", AutoSubsystem.getAutoCommand("RightAuto"));
-        autoChooser.addOption("Middle Auto", AutoSubsystem.getAutoCommand("MiddleAuto"));
+        autoChooser.addOption("2 Left Auto", AutoSubsystem.getAutoCommand("Auto1"));
+        autoChooser.addOption("2 Right Auto", AutoSubsystem.getAutoCommand("Auto2"));
 
-        // Display on SmartDashboard
-        SmartDashboard.putData("Auto choices", autoChooser);
+        Shuffleboard.getTab("Autonomous").add(autoChooser);
     }
+
+     
 
     public Command getAutonomousCommand() {
         if (autoChooser.getSelected() != null){
