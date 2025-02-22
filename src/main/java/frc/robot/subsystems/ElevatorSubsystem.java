@@ -36,7 +36,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         elevatorMotor.configure(config_, SparkBase.ResetMode.kResetSafeParameters,SparkBase.PersistMode.kPersistParameters);
         elevatorMotor2.configure(config_2, SparkBase.ResetMode.kResetSafeParameters,SparkBase.PersistMode.kPersistParameters);
 
-        elevatorEncoder = new Encoder(0, 1, false, Encoder.EncodingType.k4X); // Correct Encoder instantiation
+        elevatorEncoder = new Encoder(9, 9, false, Encoder.EncodingType.k1X); // Correct Encoder instantiation
 
         elevatorEncoder.setDistancePerPulse(1.0); // Calibrate this value!
 
