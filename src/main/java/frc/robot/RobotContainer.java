@@ -13,7 +13,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.AlgaeCommand;
 
@@ -56,10 +57,13 @@ public class RobotContainer {
     public final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem();
     private final SendableChooser<Command> autoChooser = new SendableChooser<>();
    
-
+    public static ShuffleboardTab teleopTab = Shuffleboard.getTab("Teleoperated");
+    public ShuffleboardTab autoTab = Shuffleboard.getTab("Autonomous");
    
     public RobotContainer() {
         algaeSubsystem.setDefaultCommand(new AlgaeCommand(algaeSubsystem, false));
+
+        setElastic();
         
         configureBindings();
         configureAutoChooser();
@@ -68,6 +72,12 @@ public class RobotContainer {
 
     private void offLineAuto(){
        // return driveSubsystem.drive(-.5,-.5).withTimeout(2);
+    }
+
+    public void setElastic(){
+        
+    teleopTab.addDouble("Match Time", () -> DriverStation.getMatchTime());
+    teleopTab.addDouble("Algae Distance", () -> algaeSubsystem.getDistanceSensor());
     }
 
     private void configureBindings() {

@@ -31,7 +31,7 @@ public class AlgaeSubsystem extends SubsystemBase {
        
     }
 
-     public double getDistanceSensor() {
+    public double getDistanceSensor() {
          if (distanceSensor.isRangeValid()){
              return distanceSensor.getRange();
          }
