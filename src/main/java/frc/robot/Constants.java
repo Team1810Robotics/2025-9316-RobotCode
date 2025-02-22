@@ -45,7 +45,7 @@ public class Constants {
         public static final int HOPPER_BEAM_BREAK_ID = 0; // BEAM1 - Hopper Beam Break
         public static final int INTAKE_BEAM_BREAK_ID = 1; // BEAM2 - Inside Intake Beam Break
         public static final int OUTTAKE_BEAM_BREAK_ID = 2; // BEAM3 - Outside Intake Beam Break
-            
+        
     }
 
     public class AlgaeConstants {
@@ -54,7 +54,7 @@ public class Constants {
 
     }
 
-       
+    
 
     public static final class VisionConstants {
         public static final String TARGET_CAMERA = "Arducam_OV9281_USB_Camera";
@@ -65,10 +65,19 @@ public class Constants {
         public static final AprilTagFieldLayout APRIL_TAG_FIELD_LAYOUT =
                 AprilTagFields.k2025Reefscape.loadAprilTagLayoutField();
         public static final Transform3d CAMERA_OFFSET = null; // Units?
-
+		//Vision Rotation PID variables
         public static final double V_Kp = 0.05; // PID Kp
         public static final double V_Ki = 0.0; // PID Ki
         public static final double V_Kd = 0.0; // PID Kd
+		
+		//Vision Drive PID X vars
+		public static double VX_Kp = 0.5;
+        public static double VX_Ki = 0.0;
+        public static double VX_Kd = 0.0;
+		//Vision Drive PID Y vars
+		public static double VY_Kp = 1;
+        public static double VY_Ki = 0.0;
+        public static double VY_Kd = 0.0;
     }
 
     public static final class LEDConstants {
@@ -81,7 +90,7 @@ public class Constants {
         public static final int MAX_BRIGHTNESS_ANGLE = 90; // Units? (e.g., degrees)
         public static final int MID_BRIGHTNESS_ANGLE = 180; // Units?
         public static final int ZERO_BRIGHTNESS_ANGLE = 270; // Units?
-        //TODO: These don't belong to LEDs
+       //TODO: These don't belong to LEDs
         public static final int VBAT_BUTTON = XboxController.Button.kA.value; // Xbox Button Value
         public static final int V5_BUTTON = XboxController.Button.kB.value; // Xbox Button Value
         public static final int CURRENT_BUTTON = XboxController.Button.kX.value; // Xbox Button Value

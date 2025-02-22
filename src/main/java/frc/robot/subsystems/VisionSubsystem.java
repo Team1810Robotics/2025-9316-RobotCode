@@ -41,20 +41,23 @@ import org.photonvision.targeting.PhotonPipelineResult;
 
 public class VisionSubsystem extends SubsystemBase {
    
-    private final PIDController spinPIDController = new PIDController(VisionConstants.V_Kp, VisionConstants.V_Ki, VisionConstants.V_Kd);
-    
+    public PIDController spinPIDController = new PIDController(VisionConstants.V_Kp, VisionConstants.V_Ki, VisionConstants.V_Kd);
+    public PIDController driveControllerY = new PIDController(VisionConstants.VY_Kp, VisionConstants.VY_Ki, VisionConstants.VY_Kd);
+	public PIDController driveControllerX = new PIDController(VisionConstants.VX_Kp, VisionConstants.VX_Ki, VisionConstants.VX_Kd);
     
     Transform3d robotToCam = VisionConstants.CAMERA_OFFSET;
 
 AprilTagFieldLayout AprilTagFieldLayout = 
 VisionConstants.APRIL_TAG_FIELD_LAYOUT;
 
-    PhotonCamera camera;
+    public PhotonCamera camera;
     PhotonPoseEstimator photonPoseEstimator;
 
     List<PhotonPipelineResult> allResults;
-    PhotonPipelineResult result; 
-
+    public static PhotonPipelineResult result; 
+    double targetYaw;
+	double targetRange;
+	boolean targetVisible;
 
     AprilTagFieldLayout aprilTagFieldLayout =
             AprilTagFields.k2025Reefscape.loadAprilTagLayoutField();
@@ -77,6 +80,33 @@ VisionConstants.APRIL_TAG_FIELD_LAYOUT;
     }
     
 
+public Optional<Double> getRange() {
+    if (hasTarget()) {
+        return Optional.of(result.getBestTarget().getBestCameraToTarget().getTranslation().getNorm());
+    }
+    return Optional.of(1000.0);
+}
+
+public Optional<Double> getXRange(){
+    if (hasTarget()){
+        return Optional.of(result.getBestTarget().altCameraToTarget.getX());
+    } else return Optional.of(1000.0);
+}
+
+public Optional<Double> getPitch() {
+    if (hasTarget()) {
+        return Optional.of(result.getBestTarget().getPitch());
+    } else {
+        return Optional.of(1000.0);
+    }
+}
+
+public Optional<Double> getRangeError(){
+    if (hasTarget()) {
+        return Optional.of(getRange().get() - 0.5);
+    }
+    else return Optional.of(1000.0);
+}
       @Override
       public void periodic() {
         allResults = camera.getAllUnreadResults();
@@ -128,6 +158,11 @@ VisionConstants.APRIL_TAG_FIELD_LAYOUT;
         else{return Optional.empty();}
     }
 
+	public double visionDrive(double altDrive, double distance, double source, boolean driveMode, PIDController pid){
+    if(getRange().isPresent() && driveMode && hasTarget()){
+        return pid.calculate(source - distance);
+    } else return altDrive;
+}
 
     public double visionTargetPIDCalc(
 
