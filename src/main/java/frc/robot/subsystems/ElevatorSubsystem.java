@@ -27,8 +27,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     private static final double MIN_HEIGHT = 0.0;
 
     public ElevatorSubsystem() { // Corrected constructor name
-        SparkMax elevatorMotor = new SparkMax(Constants.ElevatorConstants.ELEVATOR_MOTOR_1_ID, MotorType.kBrushless);
-        SparkMax elevatorMotor2 = new SparkMax(Constants.ElevatorConstants.ELEVATOR_MOTOR_2_ID, MotorType.kBrushless);
+        elevatorMotor = new SparkMax(Constants.ElevatorConstants.ELEVATOR_MOTOR_1_ID, MotorType.kBrushless);
+        elevatorMotor2 = new SparkMax(Constants.ElevatorConstants.ELEVATOR_MOTOR_2_ID, MotorType.kBrushless);
         SparkMaxConfig config_ = new SparkMaxConfig();
         SparkMaxConfig config_2 = new SparkMaxConfig();
         config_.idleMode(SparkBaseConfig.IdleMode.kBrake).smartCurrentLimit(ElevatorConstants.smartCurrentLimit);
