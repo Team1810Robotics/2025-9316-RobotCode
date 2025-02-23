@@ -24,9 +24,7 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit() {
-    m_robotContainer.algaeSubsystem.distanceSensor.setAutomaticMode(false);
-  }
+  public void disabledInit() {}
 
   @Override
   public void disabledPeriodic() {}
