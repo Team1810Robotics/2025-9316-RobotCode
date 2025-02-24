@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -34,6 +35,7 @@ public class CoralHandlerSubsystem extends SubsystemBase {
 
 
     public CoralHandlerSubsystem() {
+        Shuffleboard.getTab("Autonomous").addBoolean("Inside Intake Beam Break", () -> intakeBeamBreak.get());
         coralHandlerMotor.set(0); // Ensure motor starts off
     }
 
