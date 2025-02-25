@@ -10,15 +10,17 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-
+import frc.robot.commands.ElevatorCommand;
 import frc.robot.commands.AlgaeCommand;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -61,12 +63,12 @@ public class RobotContainer {
     private final CommandXboxController xbox = new CommandXboxController(1);
     private final CommandXboxController joystick = new CommandXboxController(0);
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-    public final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem(); // Initialize Elevator Subsystem
     public final VisionSubsystem visionSubsystem = new VisionSubsystem();
 
-
-    private final CoralHandlerSubsystem coralHandlerSubsystem = new CoralHandlerSubsystem();
+    private final CoralHandlerSubsystem coralHandler = new CoralHandlerSubsystem();
+    
     public final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem();
+    public final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem(coralHandler); // Initialize Elevator Subsystem
     private final SendableChooser<Command> autoChooser = new SendableChooser<>();
    
 
@@ -91,30 +93,43 @@ public class RobotContainer {
                     .withRotationalRate(-visionSubsystem.visionTargetPIDCalc(joystick.getRightX(), joystick.a().getAsBoolean()) * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
-        
-        if(xbox.x().getAsBoolean()){
-            elevatorSubsystem.setPower(0.1);
-            System.out.println("High");
-        } else {
-            //elevatorSubsystem.setPower(0);
-        }
-        if(xbox.y().getAsBoolean()){
-            elevatorSubsystem.setPower(-0.1);
-        } else {
-            //elevatorSubsystem.setPower(0);
-        }
-
-        xbox.leftBumper().whileTrue(new AlgaeCommand(algaeSubsystem, true));
-
 
         joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
         joystick.b().whileTrue(drivetrain.applyRequest(() ->
             point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
         ));
 
-        // Bind Xbox controller buttons to elevator control
-        joystick.rightBumper().whileTrue(new InstantCommand(() -> elevatorSubsystem.controlElevator(0.3))); // Raise elevator
-        joystick.leftBumper().whileTrue(new InstantCommand(() -> elevatorSubsystem.controlElevator(-0.3))); // Lower elevator
+        // Run SysId routines when holding back/start and X/Y.
+        // Note that each routine should be run exactly once in a single log.
+        joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+        joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
+        joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+        joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
+
+        // reset the field-centric heading on a button press
+        joystick.a().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+
+        // Algae Control
+        xbox.leftTrigger().whileTrue(new AlgaeCommand(algaeSubsystem, true));
+
+        // Elevator Controls
+        xbox.a().onTrue(new ElevatorCommand(elevatorSubsystem, ElevatorSubsystem.INTAKE_POSITION));    // Intake
+        xbox.b().onTrue(new ElevatorCommand(elevatorSubsystem, ElevatorSubsystem.L1_POSITION));        // L1
+        xbox.x().onTrue(new ElevatorCommand(elevatorSubsystem, ElevatorSubsystem.L2_POSITION));        // L2
+        xbox.y().onTrue(new ElevatorCommand(elevatorSubsystem, ElevatorSubsystem.L3_POSITION));        // L3
+        xbox.rightBumper().onTrue(new ElevatorCommand(elevatorSubsystem, ElevatorSubsystem.HIGH_ALGAE_POSITION)); // HighAlgae
+
+        // Elevator Emergency Stop
+        xbox.back().onTrue(new InstantCommand(() -> elevatorSubsystem.stop()));
+
+        //Eject Coral
+        xbox.rightTrigger().whileTrue(new InstantCommand(() -> coralHandler.startOuttake()))
+                   .onFalse(new InstantCommand(() -> coralHandler.stopCoralHandler()));
+
+        // Manual Adjustments for Elevator
+        xbox.povUp().onTrue(new ElevatorCommand(elevatorSubsystem, true));     // Manual Up
+        xbox.povDown().onTrue(new ElevatorCommand(elevatorSubsystem, false));  // Manual Down
+        
 
         drivetrain.registerTelemetry(logger::telemeterize);
 

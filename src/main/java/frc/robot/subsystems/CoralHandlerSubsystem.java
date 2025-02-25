@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -58,9 +59,9 @@ public class CoralHandlerSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // Beam break logic (Beam break is triggered when FALSE)
-        boolean hopperBroken = !hopperBeamBreak.get();
-        boolean intakeBroken = !intakeBeamBreak.get();
-        boolean outtakeBroken = !outtakeBeamBreak.get();
+        boolean hopperBroken = isHopperBroken();
+        boolean intakeBroken = isIntakeBroken();
+        boolean outtakeBroken = isOuttakeBroken();
 
         // Hopper Beam Break → Start Intake
         if (hopperBroken && !isCoralInProcess && !isReversing) {
@@ -110,6 +111,18 @@ public class CoralHandlerSubsystem extends SubsystemBase {
             setLEDColor("BLUE"); // Resume intake
         }
     }
+    public boolean isHopperBroken(){
+        return !hopperBeamBreak.get();
+    }
+
+    public boolean isIntakeBroken(){
+        return !intakeBeamBreak.get();
+    }
+
+    public boolean isOuttakeBroken(){
+        return !outtakeBeamBreak.get();
+    }
+
 
     public boolean isElevatorLocked() {
         return elevatorLocked;
