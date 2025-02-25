@@ -148,6 +148,9 @@ public class RobotContainer {
         Shuffleboard.getTab("Autonomous").add(autoChooser);
     }
 
+    private void setElastic(){
+       
+    }
      
 
     public Command getAutonomousCommand() {

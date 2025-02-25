@@ -35,6 +35,7 @@ public class CoralHandlerSubsystem extends SubsystemBase {
 
 
     public CoralHandlerSubsystem() {
+        Shuffleboard.getTab("Autonomous").addBoolean("Inside Intake Beam Break", () -> intakeBeamBreak.get());
         coralHandlerMotor.set(0); // Ensure motor starts off
     }
 
