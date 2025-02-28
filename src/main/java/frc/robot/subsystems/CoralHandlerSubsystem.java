@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+
+import frc.robot.Constants;
 import frc.robot.Constants.CoralHandlerConstants;
 
 public class CoralHandlerSubsystem extends SubsystemBase {
@@ -115,9 +117,12 @@ public class CoralHandlerSubsystem extends SubsystemBase {
         return elevatorLocked;
     }
 
-    private void setLEDColor(String color) {
-        // Placeholder for LED control
-        System.out.println("LED Color: " + color);
+    private void setLEDColor(Integer[] colorCode) {
+        final int r = colorCode[0];
+        final int g = colorCode[1];
+        final int b = colorCode[2];
+        // TO DO: UPDATE TO USE LED SUBSYSTEM LEDSubsystem.changeLEDColor();
+        System.out.println("LED Color: "+colorCode);
     }
 
     public void stopCoralHandler() {

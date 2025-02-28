@@ -55,6 +55,13 @@ public class LEDSubsystem extends SubsystemBase {
         }
     }
 
+    public void changeLEDColor(Integer[] colorCode){
+        final int r = colorCode[0];
+        final int g = colorCode[1];
+        final int b = colorCode[2];
+        m_candle.setLEDs(r, g, b);
+    }
+
     public void changeAnimation(AnimationTypes toChange) {
         m_currentAnimation = toChange;
         
